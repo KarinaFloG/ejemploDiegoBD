@@ -1,0 +1,146 @@
+--Sentencia select
+
+--Para ver a todos
+SELECT *
+FROM Estudiante;
+
+--Para que se vean bonitas las consultas
+--set page size tamaño de la hoja hacia los lados
+SET PAGESIZE 150
+--Para ejecutar la ultima consulta que hicimos
+/
+
+--Para mostrar todas las configuraciones
+--Aqui se puede consultar el pagesize
+show all
+
+
+--Vista hacia lo largo, # de caracteres que queremos que se vea
+SET LINESIZE 110
+
+--Para los espacios entre columnas
+--A formato alfanumerico
+--Despues de a va la cantidad de caracteres
+COLUMN nombre format A15
+
+--SELECT PARA ESTUDIANTE
+SELECT * 
+FROM Estudiante_inscrito;
+
+--SELECT DE VARIAS COLUMNAS
+SELECT nombre, apellido_paterno, estudiante_id
+FROM estudiante;
+
+--Para consultar la hora
+SELECT hora_inicio, hora_fin
+
+--Para quitarle el tipo date y mostrarlo como cadena para especificar la parte de la cadena que deseamos ver
+SELECT
+--Como castearlo
+to_char(hora_inicio, 'HH24')
+FROM Horario;
+
+
+--Columnas virtuales/Alias
+SELECT
+to_char(hora_fin, 'HH24') AS Hora,
+to_char(hora_fin, 'MM') AS Minuto
+FROM Horario;
+
+-------ALIAS-------
+SELECT nombre AS "Los prebes"
+--Si se trabaja con espacio, lleva comillas dobles
+
+--CAMBIA EL ENCABEZADO
+--El pipe representa un salto de linea
+COLUMN Fotografia HEADING Foto|grafia
+SELECT *FROM Estudiante
+
+SELECT nombre AS Nombres, apellido_paterno AS Paternos
+FROM Estudiante;
+
+--Para especificar la manera de dividir la vista
+SET UNDERLINE *
+--Sale asi -> **************
+
+--CONCATENACION
+--Se concatena con ||
+SELECT 'Mi nombre es ' || nombre || ' ' || apellido_paterno
+FROM Estudiante;
+
+--Ahora con alias
+SELECT 'Mi nombre es ' || nombre || ' ' || apellido_paterno AS "Nombres y apellidos de las bendiciones"
+FROM Estudiante;
+
+--WHERE especifica en que valor deseamos hacer la consulta
+--cl scr   Para limpiar la pantalla
+SELECT nombre, apellido_paterno, apellido_materno, plan_estudios_id
+FROM Estudiante
+WHERE estudiante_id = 7;
+--Cuando se trabaja con numeros no lleva comillas amenos que sea una cadena
+
+SELECT nombre, apellido_paterno, apellido_materno, plan_estudios_id
+FROM Estudiante
+WHERE apellido_paterno = 'LOPEZ'
+
+SELECT nombre, apellido_paterno, apellido_materno, plan_estudios_id
+FROM Estudiante
+WHERE fecha_nacimiento >= to_date('05/01/1983', 'DD/MM/YYYY');
+
+
+--OPERADORES ARITMETICOS
+--SUMA,RESTA,MULTIPLICACION Y DIVISION
+SELECT nombre, (sysdate-fecha_nacimiento)/365 AS "Edades actuales"
+FROM Profesor;
+
+SELECT nombre, TRUNC((sysdate-fecha_nacimiento)/365) AS "Edades actuales"
+FROM Profesor;
+
+--OPERADORES RELACIONALES
+SELECT profesor_id AS ID, rfc
+FROM Profesor
+--<> distinto de 
+WHERE nombre <> 'LENIN';
+
+SELECT *
+FROM Curso
+WHERE clave_grupo <> 1;
+
+SELECT *
+FROM Curso
+WHERE curso_id <= 17;
+
+
+--*****AND
+SELECT *
+FROM Curso
+WHERE (cupo_maximo > 30) AND (profesor_id = 10);
+
+--******OR
+SELECT *
+FROM Asignatura
+WHERE (creditos = 9) OR (creditos = 5) OR (creditos = 6);
+
+--ORDENAR EL RESULTADO DE LOS REGISTROS POR ALGUN CAMPO
+SELECT *
+FROM Asignatura
+WHERE (creditos = 9) OR (creditos = 5) OR (creditos = 6)
+ORDER BY Creditos;
+
+--QUE LO ORDENE POR NUMEROS
+SELECT* 
+FROM AsignaturELECT *
+FROM Asignatura
+WHERE (creditos = 9) OR (creditos = 5) OR (creditos = 6) 
+ORDER BY 2 DESC;
+--DESC ORDENA D Z - A 
+
+--QUE ORDENE DE FORMA DESCENDENTE APARTIR DE LOS CREDITOS
+SELECT *
+FROM Asignatura
+WHERE (creditos = 9) OR (creditos = 5) OR (creditos = 6) 
+ORDER BY 3 DESC, Nombre ASC;
+
+
+-----*********JOIN*********
+SELECT ei.estudiante
